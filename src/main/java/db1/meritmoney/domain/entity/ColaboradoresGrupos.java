@@ -19,6 +19,8 @@ public class ColaboradoresGrupos {
     @Column(name = "responsavel", nullable = false)
     private Boolean responsavel;
 
+    protected ColaboradoresGrupos() {}
+
     public ColaboradoresGrupos(Grupo grupo, Colaborador colaborador, Boolean responsavel) {
         this.grupo = grupo.getId();
         this.colaborador = colaborador.getId();

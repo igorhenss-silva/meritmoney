@@ -1,7 +1,7 @@
 package db1.meritmoney.domain.entity;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "grupo")
@@ -11,23 +11,27 @@ public class Grupo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nome", nullable = false)
+    @Column(name = "nome", unique = true, nullable = false)
     private String nome;
 
     @Column(name = "data_inicio", nullable = false)
-    private LocalDateTime dataInicio;
+    private LocalDate dataInicio;
 
-    @Column(name = "data_finalizacao")
-    private LocalDateTime dataFinalizacao;
+    @Column(name = "data_encerramento", nullable = false)
+    private LocalDate dataEncerramento;
 
-    public Grupo(String nome, LocalDateTime dataFinalizacao) {
-        dataInicio = LocalDateTime.now();
+    protected Grupo() {}
+
+    public Grupo(String nome, LocalDate dataInicio, LocalDate dataEncerramento) {
+        this.nome = nome;
+        this.dataInicio = dataInicio;
+        this.dataEncerramento = dataEncerramento;
     }
 
     // METHODS
 
     public void finalizarGrupo() {
-        dataFinalizacao = LocalDateTime.now();
+        dataEncerramento = LocalDate.now();
     }
 
     // GETTERS AND SETTERS
@@ -48,19 +52,19 @@ public class Grupo {
         this.nome = nome;
     }
 
-    public LocalDateTime getDataInicio() {
+    public LocalDate getDataInicio() {
         return dataInicio;
     }
 
-    public void setDataInicio(LocalDateTime dataInicio) {
+    public void setDataInicio(LocalDate dataInicio) {
         this.dataInicio = dataInicio;
     }
 
-    public LocalDateTime getDataFinalizacao() {
-        return dataFinalizacao;
+    public LocalDate getDataEncerramento() {
+        return dataEncerramento;
     }
 
-    public void setDataFinalizacao(LocalDateTime dataFinalizacao) {
-        this.dataFinalizacao = dataFinalizacao;
+    public void setDataEncerramento(LocalDate dataEncerramento) {
+        this.dataEncerramento = dataEncerramento;
     }
 }

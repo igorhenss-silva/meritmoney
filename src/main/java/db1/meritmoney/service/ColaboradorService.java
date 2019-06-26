@@ -18,7 +18,8 @@ public class ColaboradorService {
     // CREATE
 
     public ColaboradorDTO save(ColaboradorDTO dto) {
-        Colaborador colaborador = new Colaborador(dto.getNome(), dto.getUsuario(), dto.isGestor());
+        usuarioJaExiste(dto);
+        Colaborador colaborador = new Colaborador(dto.getNome(), dto.getUsuario(), dto.getGestor());
         colaborador = colaboradorRepository.save(colaborador);
         return colaboradorToDTO(colaborador);
     }
@@ -57,13 +58,24 @@ public class ColaboradorService {
     // DELETE
 
     public void delete(Long id) {
-        Colaborador colaboradorParaDeletar = colaboradorRepository.getOne(id);
-        colaboradorRepository.delete(colaboradorParaDeletar);
-        colaboradorRepository.save(colaboradorParaDeletar);
+        colaboradorRepository.delete(colaboradorRepository.getOne(id));
     }
 
+    // METHODS
+
     private ColaboradorDTO colaboradorToDTO(Colaborador colaborador) {
-        return new ColaboradorDTO(colaborador.getId(), colaborador.getNome(), colaborador.getUsuario(), colaborador.getIsGestor());
+        return new ColaboradorDTO(colaborador.getId(), colaborador.getNome(), colaborador.getUsuario(), colaborador.getGestor());
+    }
+
+    private void usuarioJaExiste(ColaboradorDTO dto) {
+        List<ColaboradorDTO> colaboradores = colaboradorRepository.findAll()
+                .stream()
+                .map(colaborador -> colaboradorToDTO(colaborador))
+                .filter(colaborador -> colaborador.getUsuario().equals(dto.getUsuario()))
+                .collect(Collectors.toList());
+        if (colaboradores.size() != 0) {
+            throw new RuntimeException("O usuário do colaborador já está em uso!");
+        }
     }
 
 }

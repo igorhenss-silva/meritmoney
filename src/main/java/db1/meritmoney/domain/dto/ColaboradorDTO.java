@@ -11,13 +11,13 @@ public class ColaboradorDTO implements Serializable {
     private String nome;
     private String usuario;
     private Double saldo;
-    private Boolean isGestor;
+    private Boolean gestor;
 
-    public ColaboradorDTO (Long id, String nome, String usuario, Boolean isGestor) {
+    public ColaboradorDTO(Long id, String nome, String usuario, Boolean gestor) {
         this.id = id;
         this.nome = nome;
         this.usuario = usuario;
-        this.isGestor = isGestor;
+        this.gestor = gestor;
     }
 
     // METHODS
@@ -77,11 +77,11 @@ public class ColaboradorDTO implements Serializable {
         this.saldo = saldo;
     }
 
-    public Boolean isGestor() {
-        return isGestor;
+    public Boolean getGestor() {
+        return gestor;
     }
 
-    public void setIsGestor(Boolean isGestor) {
-        this.isGestor = isGestor;
+    public void setGestor(Boolean gestor) {
+        this.gestor = gestor;
     }
 }

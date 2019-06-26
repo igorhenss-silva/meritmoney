@@ -1,7 +1,7 @@
 package db1.meritmoney.domain.dto;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class GrupoDTO implements Serializable {
@@ -10,14 +10,14 @@ public class GrupoDTO implements Serializable {
 
     private Long id;
     private String nome;
-    private LocalDateTime dataInicio;
-    private LocalDateTime dataFinalizacao;
+    private LocalDate dataInicio;
+    private LocalDate dataEncerramento;
 
-    public GrupoDTO(Long id, String nome, LocalDateTime dataInicio, LocalDateTime dataFinalizacao) {
+    public GrupoDTO(Long id, String nome, LocalDate dataInicio, LocalDate dataEncerramento) {
         this.id = id;
         this.nome = nome;
         this.dataInicio = dataInicio;
-        this.dataFinalizacao = dataFinalizacao;
+        this.dataEncerramento = dataEncerramento;
     }
 
     // METHODS
@@ -40,7 +40,7 @@ public class GrupoDTO implements Serializable {
         }
         GrupoDTO other = (GrupoDTO) obj;
         return Objects.equals(id, other.id) && Objects.equals(nome, other.nome)
-                && Objects.equals(dataInicio, other.dataInicio) && Objects.equals(dataFinalizacao, other.dataFinalizacao);
+                && Objects.equals(dataInicio, other.dataInicio) && Objects.equals(dataEncerramento, other.dataEncerramento);
     }
 
     // GETTERS AND SETTERS
@@ -61,19 +61,19 @@ public class GrupoDTO implements Serializable {
         this.nome = nome;
     }
 
-    public LocalDateTime getDataInicio() {
+    public LocalDate getDataInicio() {
         return dataInicio;
     }
 
-    public void setDataInicio(LocalDateTime dataInicio) {
+    public void setDataInicio(LocalDate dataInicio) {
         this.dataInicio = dataInicio;
     }
 
-    public LocalDateTime getDataFinalizacao() {
-        return dataFinalizacao;
+    public LocalDate getDataEncerramento() {
+        return dataEncerramento;
     }
 
-    public void setDataFinalizacao(LocalDateTime dataFinalizacao) {
-        this.dataFinalizacao = dataFinalizacao;
+    public void setDataEncerramento(LocalDate dataEncerramento) {
+        this.dataEncerramento = dataEncerramento;
     }
 }

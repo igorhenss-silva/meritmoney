@@ -13,35 +13,40 @@ public class Transacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "colaborador_origem", nullable = false)
-    private Long colaboradorOrigem;
+    @ManyToOne
+    @JoinColumn(name = "colaborador_origem", referencedColumnName = "id", nullable = false)
+    private Colaborador colaboradorOrigem;
 
     @Column(name = "quantia_transferida", nullable = false)
     private Double quantiaTransferida;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "tipo_transacao", length = 1, nullable = false)
     private TipoTransacao tipoTransacao;
 
-    @Column(name = "colaborador_destino", nullable = false)
-    private Long colaboradorDestino;
+    @ManyToOne
+    @JoinColumn(name = "colaborador_destino", referencedColumnName = "id", nullable = false)
+    private Colaborador colaboradorDestino;
 
     @Column(name = "data_transacao", nullable = false)
     private LocalDateTime dataTransacao;
 
-    @Column(name = "grupo_origem", nullable = false)
-    private Long grupoOrigem;
+    @ManyToOne
+    @JoinColumn(name = "grupo_origem", referencedColumnName = "id", nullable = false)
+    private Grupo grupoOrigem;
 
+    protected Transacao() {}
 
     public Transacao(Colaborador colaboradorOrigem, Double quantiaTransferida, TipoTransacao tipoTransacao,
                      Colaborador colaboradorDestino, Grupo grupoOrigem) {
         colaboradorOrigem.temSaldoSuficiente(quantiaTransferida);
         colaboradorOrigemDeveSerDiferenteDoUsuarioDestino(colaboradorOrigem, colaboradorDestino);
-        this.colaboradorOrigem = colaboradorOrigem.getId();
+        this.colaboradorOrigem = colaboradorOrigem;
         this.quantiaTransferida = quantiaTransferida;
         this.tipoTransacao = tipoTransacao;
-        this.colaboradorDestino = colaboradorDestino.getId();
+        this.colaboradorDestino = colaboradorDestino;
         this.dataTransacao = LocalDateTime.now();
-        this.grupoOrigem = grupoOrigem.getId();
+        this.grupoOrigem = grupoOrigem;
     }
 
     // METHODS
@@ -62,11 +67,11 @@ public class Transacao {
         this.id = id;
     }
 
-    public Long getColaboradorOrigem() {
+    public Colaborador getColaboradorOrigem() {
         return colaboradorOrigem;
     }
 
-    public void setColaboradorOrigem(Long colaboradorOrigem) {
+    public void setColaboradorOrigem(Colaborador colaboradorOrigem) {
         this.colaboradorOrigem = colaboradorOrigem;
     }
 
@@ -86,11 +91,11 @@ public class Transacao {
         this.tipoTransacao = tipoTransacao;
     }
 
-    public Long getColaboradorDestino() {
+    public Colaborador getColaboradorDestino() {
         return colaboradorDestino;
     }
 
-    public void setColaboradorDestino(Long colaboradorDestino) {
+    public void setColaboradorDestino(Colaborador colaboradorDestino) {
         this.colaboradorDestino = colaboradorDestino;
     }
 
@@ -102,11 +107,11 @@ public class Transacao {
         this.dataTransacao = dataTransacao;
     }
 
-    public Long getGrupoOrigem() {
+    public Grupo getGrupoOrigem() {
         return grupoOrigem;
     }
 
-    public void setGrupoOrigem(Long grupoOrigem) {
+    public void setGrupoOrigem(Grupo grupoOrigem) {
         this.grupoOrigem = grupoOrigem;
     }
 

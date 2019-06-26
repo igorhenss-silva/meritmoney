@@ -13,21 +13,22 @@ public class Colaborador {
     @Column(name = "nome", nullable = false)
     private String nome;
 
-    @Column(name = "usuario", nullable = false)
+    @Column(name = "usuario", unique = true, nullable = false)
     private String usuario;
 
     @Column(name = "saldo")
     private Double saldo;
 
     @Column(name = "gestor", nullable = false)
-    private Boolean isGestor;
+    private Boolean gestor;
 
-    private Colaborador() { }
+    protected Colaborador() {}
 
-    public Colaborador(String nome, String usuario, Boolean isGestor) {
+    public Colaborador(String nome, String usuario, Boolean gestor) {
         this.nome = nome;
         this.usuario = usuario;
-        this.isGestor = isGestor;
+        this.saldo = 100.00;
+        this.gestor = gestor;
     }
 
     // METHODS
@@ -39,7 +40,7 @@ public class Colaborador {
     }
 
     public void isGestor() {
-        if (!isGestor) {
+        if (!gestor) {
             throw new RuntimeException("Somente gestores podem realizar essa operação.");
         }
     }
@@ -78,12 +79,12 @@ public class Colaborador {
         this.saldo = saldo;
     }
 
-    public Boolean getIsGestor() {
-        return isGestor;
+    public Boolean getGestor() {
+        return gestor;
     }
 
-    public void setIsGestor(Boolean gestor) {
-        isGestor = gestor;
+    public void setGestor(Boolean gestor) {
+        this.gestor = gestor;
     }
 
 }
