@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,31 +34,26 @@ public class TransacaoService {
         Colaborador colaboradorDestino = colaboradorRepository.getOne(dto.getColaboradorDestino());
         Grupo grupoOrigem = grupoRepository.getOne(dto.getGrupoOrigem());
         Transacao transacao = new Transacao(colaboradorOrigem, dto.getQuantiaTransferida(), dto.getTipoTransacao(), colaboradorDestino, grupoOrigem);
-        transacao = transacaoRepository.save(transacao);
         if (dto.getTipoTransacao().equals(TipoTransacao.S)) {
-            colaboradorOrigem.setSaldo(colaboradorOrigem.getSaldo() - dto.getQuantiaTransferida());
-        } else {
-            colaboradorOrigem.setSaldo(dto.getQuantiaTransferida());
+            colaboradorOrigem.transferir(dto.getQuantiaTransferida());
+        } else if (dto.getTipoTransacao().equals(TipoTransacao.E)) {
+            colaboradorOrigem.isGestor();
         }
+        colaboradorDestino.setSaldo(colaboradorDestino.getSaldo() + dto.getQuantiaTransferida());
         colaboradorRepository.save(colaboradorOrigem);
-        return transacaoToDTO(transacao);
+        colaboradorRepository.save(colaboradorDestino);
+        return transacaoToDTO(transacaoRepository.save(transacao));
     }
 
     // READ
 
-    public List<TransacaoDTO> getByColaboradorOrigem(Long idColaboradorOrigem) {
-        return transacaoRepository.findByColaboradorOrigem(idColaboradorOrigem);
-    }
-
-    public List<TransacaoDTO> getByColaboradorDestino(Long idColaboradorDestino) {
-        return transacaoRepository.findByColaboradorDestino(idColaboradorDestino);
-    }
-
     public List<TransacaoDTO> getByColaborador(Long id) {
-        List<TransacaoDTO> colaboradores = new ArrayList<>();
-        getByColaboradorOrigem(id).stream().map(colaborador -> colaboradores.add(colaborador));
-        getByColaboradorDestino(id).stream().map(colaborador -> colaboradores.add(colaborador));
-        return colaboradores;
+        return transacaoRepository.findAll()
+                .stream()
+                .map(transacao -> transacaoToDTO(transacao))
+                .filter(transacao -> transacao.getColaboradorOrigem().equals(id)
+                        || transacao.getColaboradorDestino().equals(id))
+                .collect(Collectors.toList());
     }
 
     public List<TransacaoDTO> getByQuantiaTransferida(Double quantiaMin, Double quantiaMax) {
@@ -70,15 +65,24 @@ public class TransacaoService {
     }
 
     public List<TransacaoDTO> getByTipoTransacao(TipoTransacao tipoTransacao) {
-        return transacaoRepository.findByTipoTransacao(tipoTransacao);
+        return transacaoRepository.findByTipoTransacao(tipoTransacao)
+                .stream()
+                .map(transacao -> transacaoToDTO(transacao))
+                .collect(Collectors.toList());
     }
 
     public List<TransacaoDTO> getByDataTransacao(LocalDate dataTransacao) {
-        return transacaoRepository.findByDataTransacao(dataTransacao);
+        return transacaoRepository.findByDataTransacao(dataTransacao)
+                .stream()
+                .map(transacao -> transacaoToDTO(transacao))
+                .collect(Collectors.toList());
     }
 
     public List<TransacaoDTO> getByGrupoOrigem(Long grupoOrigem) {
-        return transacaoRepository.findByGrupoOrigem(grupoOrigem);
+        return transacaoRepository.findByGrupoOrigem(grupoOrigem)
+                .stream()
+                .map(transacao -> transacaoToDTO(transacao))
+                .collect(Collectors.toList());
     }
 
     // UPDATE

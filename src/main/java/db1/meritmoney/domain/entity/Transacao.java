@@ -39,14 +39,18 @@ public class Transacao {
 
     public Transacao(Colaborador colaboradorOrigem, Double quantiaTransferida, TipoTransacao tipoTransacao,
                      Colaborador colaboradorDestino, Grupo grupoOrigem) {
-        colaboradorOrigem.temSaldoSuficiente(quantiaTransferida);
+        if (tipoTransacao.equals(TipoTransacao.S)) {
+            colaboradorOrigem.temSaldoSuficiente(quantiaTransferida);
+        } else {
+            colaboradorOrigem.isGestor();
+        }
         colaboradorOrigemDeveSerDiferenteDoUsuarioDestino(colaboradorOrigem, colaboradorDestino);
-        this.colaboradorOrigem = colaboradorOrigem;
-        this.quantiaTransferida = quantiaTransferida;
-        this.tipoTransacao = tipoTransacao;
-        this.colaboradorDestino = colaboradorDestino;
-        this.dataTransacao = LocalDateTime.now();
-        this.grupoOrigem = grupoOrigem;
+        setColaboradorOrigem(colaboradorOrigem);
+        setQuantiaTransferida(quantiaTransferida);
+        setTipoTransacao(tipoTransacao);
+        setColaboradorDestino(colaboradorDestino);
+        setDataTransacao(LocalDateTime.now());
+        setGrupoOrigem(grupoOrigem);
     }
 
     // METHODS

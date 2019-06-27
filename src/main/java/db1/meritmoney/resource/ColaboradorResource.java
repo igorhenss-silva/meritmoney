@@ -23,12 +23,12 @@ public class ColaboradorResource {
 //    public ColaboradorDTO getByUsuario(@RequestParam("usuario") String usuario) {
 //        return colaboradorService.getByUsuario(usuario);
 //    }
-
+//
     @GetMapping
     public List<ColaboradorDTO> getByNome(@RequestParam("nome") String nome) {
         return colaboradorService.getByNome(nome);
     }
-
+//
 //    @GetMapping
 //    public List<ColaboradorDTO> getBySaldo(@RequestParam("saldo") Double saldo) {
 //        return colaboradorService.getBySaldo(saldo);

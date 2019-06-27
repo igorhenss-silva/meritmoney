@@ -16,7 +16,7 @@ public class Colaborador {
     @Column(name = "usuario", unique = true, nullable = false)
     private String usuario;
 
-    @Column(name = "saldo")
+    @Column(name = "saldo", nullable = false)
     private Double saldo;
 
     @Column(name = "gestor", nullable = false)
@@ -25,10 +25,10 @@ public class Colaborador {
     protected Colaborador() {}
 
     public Colaborador(String nome, String usuario, Boolean gestor) {
-        this.nome = nome;
-        this.usuario = usuario;
-        this.saldo = 100.00;
-        this.gestor = gestor;
+        setNome(nome);
+        setUsuario(usuario);
+        setSaldo(0.0);
+        setGestor(gestor);
     }
 
     // METHODS
@@ -45,7 +45,12 @@ public class Colaborador {
         }
     }
 
-    // GETTERS AND SETTERS
+    public void transferir(Double saldo) {
+        temSaldoSuficiente(saldo);
+        this.saldo -= saldo;
+    }
+
+   // GETTERS AND SETTERS
 
     public Long getId() {
         return id;

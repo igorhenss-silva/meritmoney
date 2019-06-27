@@ -38,11 +38,11 @@ public class GrupoService {
                 .collect(Collectors.toList());
     }
 
-    public List<GrupoDTO> getByData(LocalDateTime data) {
+    public List<GrupoDTO> getByData(LocalDate dataInicio, LocalDate dataEncerramento) {
         return grupoRepository.findAll()
                 .stream()
-                .filter(grupo -> grupo.getDataInicio().equals(data)
-                        || grupo.getDataEncerramento().equals(data))
+                .filter(grupo -> (grupo.getDataInicio().isAfter(dataInicio) || grupo.getDataInicio().isEqual(dataInicio))
+                        && (grupo.getDataEncerramento().isBefore(dataEncerramento) || grupo.getDataEncerramento().isEqual(dataEncerramento)))
                 .map(grupo -> grupoToDTO(grupo))
                 .collect(Collectors.toList());
     }
@@ -65,11 +65,6 @@ public class GrupoService {
     }
 
     // METHODS
-
-    private GrupoDTO grupoToDTO(Grupo grupo) {
-        return new GrupoDTO(grupo.getId(), grupo.getNome(),
-                grupo.getDataInicio(), grupo.getDataEncerramento());
-    }
 
     private void nomeJaExiste(GrupoDTO grupo) {
         if (!grupoRepository.findByNome(grupo.getNome()).isEmpty()) {
@@ -99,6 +94,11 @@ public class GrupoService {
         if (grupo.getDataEncerramento().isBefore(grupo.getDataInicio())) {
             throw new RuntimeException("A data de encerramento do grupo deve ser maior que a data de início.");
         }
+    }
+
+    private GrupoDTO grupoToDTO(Grupo grupo) {
+        return new GrupoDTO(grupo.getId(), grupo.getNome(),
+                grupo.getDataInicio(), grupo.getDataEncerramento());
     }
 
 }

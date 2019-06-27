@@ -5,6 +5,7 @@ import db1.meritmoney.service.GrupoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -19,20 +20,15 @@ public class GrupoResource {
         return grupoService.save(body);
     }
 
+//    @GetMapping
+//    public List<GrupoDTO> getByNome(@RequestParam("nome") String nome) {
+//        return grupoService.getByNome(nome);
+//    }
+
     @GetMapping
-    public List<GrupoDTO> getByNome(@RequestParam("nome") String nome) {
-        return grupoService.getByNome(nome);
+    public List<GrupoDTO> getByIntervaloDeTempo(@RequestParam("data_inicio") LocalDate dataInicio, @RequestParam("data_encerramento") LocalDate dataEncerramento) {
+        return grupoService.getByData(dataInicio, dataEncerramento);
     }
-
-//    @GetMapping
-//    public List<GrupoDTO> getByDataInicio(@RequestParam("data_inicio") LocalDateTime data) {
-//        return grupoService.getByData(data);
-//    }
-
-//    @GetMapping
-//    public List<GrupoDTO> getByDataFinalizacao(@RequestParam("data_finalizacao") LocalDateTime data) {
-//        return grupoService.getByData(data);
-//    }
 
     @PutMapping(value = "/{id}")
     public GrupoDTO put(@PathVariable("id") Long id, @RequestBody GrupoDTO body) {

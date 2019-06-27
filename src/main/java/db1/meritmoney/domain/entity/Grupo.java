@@ -23,9 +23,9 @@ public class Grupo {
     protected Grupo() {}
 
     public Grupo(String nome, LocalDate dataInicio, LocalDate dataEncerramento) {
-        this.nome = nome;
-        this.dataInicio = dataInicio;
-        this.dataEncerramento = dataEncerramento;
+        setNome(nome);
+        setDataInicio(dataInicio);
+        setDataEncerramento(dataEncerramento);
     }
 
     // METHODS

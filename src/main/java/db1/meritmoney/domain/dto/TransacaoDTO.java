@@ -21,13 +21,13 @@ public class TransacaoDTO implements Serializable {
     public TransacaoDTO(Long id, Long colaboradorOrigem, Double quantiaTransferida,
                         TipoTransacao tipoTransacao, Long colaboradorDestino,
                         LocalDateTime dataTransacao, Long grupoOrigem) {
-        this.id = id;
-        this.colaboradorOrigem = colaboradorOrigem;
-        this.quantiaTransferida = quantiaTransferida;
-        this.tipoTransacao = tipoTransacao;
-        this.colaboradorDestino = colaboradorDestino;
-        this.dataTransacao = dataTransacao;
-        this.grupoOrigem = grupoOrigem;
+        setId(id);
+        setColaboradorOrigem(colaboradorOrigem);
+        setQuantiaTransferida(quantiaTransferida);
+        setTipoTransacao(tipoTransacao);
+        setColaboradorDestino(colaboradorDestino);
+        setDataTransacao(dataTransacao);
+        setGrupoOrigem(grupoOrigem);
     }
 
     // METHODS

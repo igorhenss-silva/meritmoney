@@ -1,7 +1,6 @@
 package db1.meritmoney.resource;
 
 import db1.meritmoney.domain.dto.TransacaoDTO;
-import db1.meritmoney.domain.entity.Transacao;
 import db1.meritmoney.enums.TipoTransacao;
 import db1.meritmoney.service.TransacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,20 +21,20 @@ public class TransacaoResource {
         return transacaoService.save(body);
     }
 
-    @GetMapping
-    public List<TransacaoDTO> getByColaborador(@RequestParam("id") Long id) {
-        return transacaoService.getByColaborador(id);
-    }
-
+//    @GetMapping
+//    public List<TransacaoDTO> getByColaborador(@RequestParam("id") Long id) {
+//        return transacaoService.getByColaborador(id);
+//    }
+//
 //    @GetMapping
 //    public List<TransacaoDTO> getByQuantiaTransferida(@RequestParam("min") Double min, @RequestParam("max") Double max) {
 //        return transacaoService.getByQuantiaTransferida(min, max);
 //    }
 //
-//    @GetMapping
-//    public List<TransacaoDTO> getByTipoTransacao(@RequestParam("tipo_transacao") TipoTransacao tipoTransacao) {
-//        return transacaoService.getByTipoTransacao(tipoTransacao);
-//    }
+    @GetMapping
+    public List<TransacaoDTO> getByTipoTransacao(@RequestParam("tipo_transacao") TipoTransacao tipoTransacao) {
+        return transacaoService.getByTipoTransacao(tipoTransacao);
+    }
 //
 //    @GetMapping
 //    public List<TransacaoDTO> getByDataTransacao(@RequestParam("data_transacao") LocalDate dataTransacao) {

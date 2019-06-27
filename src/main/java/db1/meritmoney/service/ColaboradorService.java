@@ -27,7 +27,7 @@ public class ColaboradorService {
     // READ
 
     public ColaboradorDTO getByUsuario(String usuario) {
-        return colaboradorRepository.findByUsuario(usuario);
+        return colaboradorToDTO(colaboradorRepository.findByUsuario(usuario));
     }
 
     public List<ColaboradorDTO> getByNome(String nome) {
@@ -63,10 +63,6 @@ public class ColaboradorService {
 
     // METHODS
 
-    private ColaboradorDTO colaboradorToDTO(Colaborador colaborador) {
-        return new ColaboradorDTO(colaborador.getId(), colaborador.getNome(), colaborador.getUsuario(), colaborador.getGestor());
-    }
-
     private void usuarioJaExiste(ColaboradorDTO dto) {
         List<ColaboradorDTO> colaboradores = colaboradorRepository.findAll()
                 .stream()
@@ -76,6 +72,10 @@ public class ColaboradorService {
         if (colaboradores.size() != 0) {
             throw new RuntimeException("O usuário do colaborador já está em uso!");
         }
+    }
+
+    private ColaboradorDTO colaboradorToDTO(Colaborador colaborador) {
+        return new ColaboradorDTO(colaborador.getId(), colaborador.getNome(), colaborador.getUsuario(), colaborador.getSaldo(), colaborador.getGestor());
     }
 
 }
