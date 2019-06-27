@@ -2,10 +2,12 @@ package db1.meritmoney.service;
 
 import db1.meritmoney.domain.dto.TransacaoDTO;
 import db1.meritmoney.domain.entity.Colaborador;
+import db1.meritmoney.domain.entity.ColaboradoresGrupos;
 import db1.meritmoney.domain.entity.Grupo;
 import db1.meritmoney.domain.entity.Transacao;
 import db1.meritmoney.enums.TipoTransacao;
 import db1.meritmoney.repository.ColaboradorRepository;
+import db1.meritmoney.repository.ColaboradoresGruposRepository;
 import db1.meritmoney.repository.GrupoRepository;
 import db1.meritmoney.repository.TransacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +30,16 @@ public class TransacaoService {
     @Autowired
     GrupoRepository grupoRepository;
 
+    @Autowired
+    ColaboradoresGruposRepository colaboradoresGruposRepository;
+
     // CREATE
     public TransacaoDTO save(TransacaoDTO dto) {
         Colaborador colaboradorOrigem = colaboradorRepository.getOne(dto.getColaboradorOrigem());
         Colaborador colaboradorDestino = colaboradorRepository.getOne(dto.getColaboradorDestino());
         Grupo grupoOrigem = grupoRepository.getOne(dto.getGrupoOrigem());
         Transacao transacao = new Transacao(colaboradorOrigem, dto.getQuantiaTransferida(), dto.getTipoTransacao(), colaboradorDestino, grupoOrigem);
+        colaboradoresNoGrupo(dto);
         if (dto.getTipoTransacao().equals(TipoTransacao.S)) {
             colaboradorOrigem.transferir(dto.getQuantiaTransferida());
         } else if (dto.getTipoTransacao().equals(TipoTransacao.E)) {
@@ -110,6 +116,18 @@ public class TransacaoService {
     }
 
     // METHODS
+
+    private void colaboradoresNoGrupo(TransacaoDTO transacao) {
+        List<ColaboradoresGrupos> colaboradoresGrupos = colaboradoresGruposRepository
+                .findByGrupo(transacao.getGrupoOrigem())
+                .stream()
+                .filter(colabsGrupos -> colabsGrupos.getColaborador().equals(transacao.getColaboradorOrigem())
+                        || colabsGrupos.getColaborador().equals(transacao.getColaboradorDestino()))
+                .collect(Collectors.toList());
+        if (colaboradoresGrupos.size() != 2) {
+            throw new RuntimeException("Os dois colaboradores precisam pertencer ao grupo para que a transação seja realizada.");
+        }
+    }
 
     private TransacaoDTO transacaoToDTO(Transacao transacao) {
         return new TransacaoDTO(transacao.getId(), transacao.getColaboradorOrigem().getId(),
