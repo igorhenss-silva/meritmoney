@@ -20,6 +20,7 @@ public class ColaboradorService {
     public ColaboradorDTO save(ColaboradorDTO dto) {
         usuarioJaExiste(dto);
         Colaborador colaborador = new Colaborador(dto.getNome(), dto.getUsuario(), dto.getGestor());
+        colaborador.setSaldo(dto.getSaldo());
         colaborador = colaboradorRepository.save(colaborador);
         return colaboradorToDTO(colaborador);
     }
