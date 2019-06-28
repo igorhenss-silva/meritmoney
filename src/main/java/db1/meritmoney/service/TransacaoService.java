@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -84,7 +83,8 @@ public class TransacaoService {
                 .collect(Collectors.toList());
     }
 
-    public List<TransacaoDTO> getByGrupoOrigem(Long grupoOrigem) {
+    public List<TransacaoDTO> getByGrupoOrigem(Long idGrupoOrigem) {
+        Grupo grupoOrigem = grupoRepository.getOne(idGrupoOrigem);
         return transacaoRepository.findByGrupoOrigem(grupoOrigem)
                 .stream()
                 .map(transacao -> transacaoToDTO(transacao))
@@ -118,8 +118,9 @@ public class TransacaoService {
     // METHODS
 
     private void colaboradoresNoGrupo(TransacaoDTO transacao) {
+        Grupo grupoOrigem = grupoRepository.getOne(transacao.getGrupoOrigem());
         List<ColaboradoresGrupos> colaboradoresGrupos = colaboradoresGruposRepository
-                .findByGrupo(transacao.getGrupoOrigem())
+                .findByGrupo(grupoOrigem)
                 .stream()
                 .filter(colabsGrupos -> colabsGrupos.getColaborador().equals(transacao.getColaboradorOrigem())
                         || colabsGrupos.getColaborador().equals(transacao.getColaboradorDestino()))

@@ -3,7 +3,7 @@ package db1.meritmoney.domain.dto;
 import db1.meritmoney.enums.TipoTransacao;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class TransacaoDTO implements Serializable {
@@ -15,12 +15,12 @@ public class TransacaoDTO implements Serializable {
     private Double quantiaTransferida;
     private TipoTransacao tipoTransacao;
     private Long colaboradorDestino;
-    private LocalDateTime dataTransacao;
+    private LocalDate dataTransacao;
     private Long grupoOrigem;
 
     public TransacaoDTO(Long id, Long colaboradorOrigem, Double quantiaTransferida,
                         TipoTransacao tipoTransacao, Long colaboradorDestino,
-                        LocalDateTime dataTransacao, Long grupoOrigem) {
+                        LocalDate dataTransacao, Long grupoOrigem) {
         setId(id);
         setColaboradorOrigem(colaboradorOrigem);
         setQuantiaTransferida(quantiaTransferida);
@@ -97,11 +97,11 @@ public class TransacaoDTO implements Serializable {
         this.colaboradorDestino = colaboradorDestino;
     }
 
-    public LocalDateTime getDataTransacao() {
+    public LocalDate getDataTransacao() {
         return dataTransacao;
     }
 
-    public void setDataTransacao(LocalDateTime dataTransacao) {
+    public void setDataTransacao(LocalDate dataTransacao) {
         this.dataTransacao = dataTransacao;
     }
 

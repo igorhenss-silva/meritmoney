@@ -3,6 +3,7 @@ package db1.meritmoney.domain.entity;
 import db1.meritmoney.enums.TipoTransacao;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -29,7 +30,7 @@ public class Transacao {
     private Colaborador colaboradorDestino;
 
     @Column(name = "data_transacao", nullable = false)
-    private LocalDateTime dataTransacao;
+    private LocalDate dataTransacao;
 
     @ManyToOne
     @JoinColumn(name = "grupo_origem", referencedColumnName = "id", nullable = false)
@@ -49,7 +50,7 @@ public class Transacao {
         setQuantiaTransferida(quantiaTransferida);
         setTipoTransacao(tipoTransacao);
         setColaboradorDestino(colaboradorDestino);
-        setDataTransacao(LocalDateTime.now());
+        setDataTransacao(LocalDate.now());
         setGrupoOrigem(grupoOrigem);
     }
 
@@ -103,11 +104,11 @@ public class Transacao {
         this.colaboradorDestino = colaboradorDestino;
     }
 
-    public LocalDateTime getDataTransacao() {
+    public LocalDate getDataTransacao() {
         return dataTransacao;
     }
 
-    public void setDataTransacao(LocalDateTime dataTransacao) {
+    public void setDataTransacao(LocalDate dataTransacao) {
         this.dataTransacao = dataTransacao;
     }
 

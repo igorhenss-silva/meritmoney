@@ -20,15 +20,15 @@ public class GrupoResource {
         return grupoService.save(body);
     }
 
-//    @GetMapping
-//    public List<GrupoDTO> getByNome(@RequestParam("nome") String nome) {
-//        return grupoService.getByNome(nome);
-//    }
-
     @GetMapping
-    public List<GrupoDTO> getByIntervaloDeTempo(@RequestParam("data_inicio") LocalDate dataInicio, @RequestParam("data_encerramento") LocalDate dataEncerramento) {
-        return grupoService.getByData(dataInicio, dataEncerramento);
+    public List<GrupoDTO> getByNome(@RequestParam("nome") String nome) {
+        return grupoService.getByNome(nome);
     }
+
+//    @GetMapping
+//    public List<GrupoDTO> getByIntervaloDeTempo(@RequestParam("data_inicio") LocalDate dataInicio, @RequestParam("data_encerramento") LocalDate dataEncerramento) {
+//        return grupoService.getByData(dataInicio, dataEncerramento);
+//    }
 
     @PutMapping(value = "/{id}")
     public GrupoDTO put(@PathVariable("id") Long id, @RequestBody GrupoDTO body) {
