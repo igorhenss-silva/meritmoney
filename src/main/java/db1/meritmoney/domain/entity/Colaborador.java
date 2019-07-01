@@ -25,6 +25,8 @@ public class Colaborador {
     protected Colaborador() {}
 
     public Colaborador(String nome, String usuario, Boolean gestor) {
+        verificaNome(nome);
+        verificaUsuario(usuario);
         setNome(nome);
         setUsuario(usuario);
         setSaldo(0.0);
@@ -48,6 +50,18 @@ public class Colaborador {
     public void transferir(Double saldo) {
         temSaldoSuficiente(saldo);
         this.saldo -= saldo;
+    }
+
+    private void verificaNome(String nome) {
+        if (nome.length() < 2) {
+            throw new RuntimeException("O nome do colaborador deve conter dois ou mais caracteres.");
+        }
+    }
+
+    private void verificaUsuario(String usuario) {
+        if (!usuario.contains(".")) {
+            throw new RuntimeException("Usuário inválido. Todo usuário precisa ter um ponto [.] entre o nome e o sobrenome.");
+        }
     }
 
    // GETTERS AND SETTERS

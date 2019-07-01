@@ -23,6 +23,8 @@ public class Grupo {
     protected Grupo() {}
 
     public Grupo(String nome, LocalDate dataInicio, LocalDate dataEncerramento) {
+        verificaNome(nome);
+        verificaDatas(dataInicio, dataEncerramento);
         setNome(nome);
         setDataInicio(dataInicio);
         setDataEncerramento(dataEncerramento);
@@ -30,8 +32,20 @@ public class Grupo {
 
     // METHODS
 
-    public void finalizarGrupo() {
+    public void encerrar() {
         dataEncerramento = LocalDate.now();
+    }
+
+    private void verificaNome(String nome) {
+        if (nome.length() < 3) {
+            throw new RuntimeException("O nome do grupo deve conter três ou mais caracteres.");
+        }
+    }
+
+    private void verificaDatas(LocalDate dataInicio, LocalDate dataEncerramento) {
+        if (dataInicio.isAfter(dataEncerramento)) {
+            throw new RuntimeException("A data de encerramento deve ser maior que a data de início.");
+        }
     }
 
     // GETTERS AND SETTERS

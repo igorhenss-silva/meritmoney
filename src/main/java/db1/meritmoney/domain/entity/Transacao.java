@@ -41,7 +41,7 @@ public class Transacao {
     public Transacao(Colaborador colaboradorOrigem, Double quantiaTransferida, TipoTransacao tipoTransacao,
                      Colaborador colaboradorDestino, Grupo grupoOrigem) {
         if (tipoTransacao.equals(TipoTransacao.S)) {
-            colaboradorOrigem.temSaldoSuficiente(quantiaTransferida);
+            colaboradorOrigem.transferir(quantiaTransferida);
         } else {
             colaboradorOrigem.isGestor();
         }
